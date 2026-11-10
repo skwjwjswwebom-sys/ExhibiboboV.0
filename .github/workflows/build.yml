@@ -1,0 +1,27 @@
+name: Build ExhibitionForge
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '8'
+
+      - name: Build
+        run: |
+          chmod +x gradlew || true
+          gradle build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ExhibitionForge
+          path: build/libs/*.jar
